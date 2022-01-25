@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 
+import { CreateComment } from '../Comments/CreateComment';
+
 interface Posts {
 	id: string;
 	title: string;
@@ -28,6 +30,8 @@ function ListPost() {
 			>
 				<div className="card-body">
 					<h3>{post.title}</h3>
+
+					<CreateComment postId={post.id}/>
 				</div>
 			</div>
 		)
