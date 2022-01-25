@@ -19,16 +19,16 @@ server.get('/posts', (request, response) => {
 });
 
 server.post('/posts', (request, response) => {
-    const id = randomBytes(4).toString('hex');
-    const { title } = request.body;
+	const id = randomBytes(4).toString('hex');
+	const { title } = request.body;
 
-    const postCreated = {
-        id, title
-    }
+	const postCreated = {
+		id, title
+	}
 
-    posts.push(postCreated)
+	posts.push(postCreated)
 
-    response.status(201).send(postCreated);
+	response.status(201).send(postCreated);
 });
 
 export default server;
