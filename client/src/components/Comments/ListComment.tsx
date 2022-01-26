@@ -16,14 +16,16 @@ function ListComment({ postId }: ListCommentProps) {
 		const fetchData = async() => {
 			const response = await axios.get(`http://localhost:4001/posts/${postId}/comments`);
 
+      console.log(response.data);
+
 			setComments(response.data);
 		}
 
 		useEffect(() => {
 			fetchData();
 		}, []);
-
-		const renderedComments = comments.map(comment => {
+    
+		const renderedComments = comments?.map((comment) => {
 			console.log("comment.id", comment.id);
 			return (
 				<li key={comment.id}>
@@ -33,9 +35,9 @@ function ListComment({ postId }: ListCommentProps) {
 		})
 
     return (
-        <ul>
-					{renderedComments}
-				</ul>
+      <ul>
+        {renderedComments}
+      </ul>
     )
 }
 
