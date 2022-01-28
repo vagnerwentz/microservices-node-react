@@ -4,17 +4,21 @@ import axios from 'axios';
 import { CreateComment } from '../Comments/CreateComment';
 import { ListComment } from '../Comments/ListComment';
 
+interface Comments {
+  id: string;
+  content: string;
+}
 interface Posts {
     id: string;
     title: string;
+    comments: Comments[];
 }
 
 function ListPost() {
     const [posts, setPosts] = useState<Posts[]>([]);
 
     const fetchPosts = async () => {
-        const response = await axios.get('http://localhost:4000/posts');
-
+        const response = await axios.get('http://localhost:4002/posts');
         setPosts(response.data);
     }
 
@@ -31,7 +35,7 @@ function ListPost() {
             >
                 <div className="card-body">
                     <h3>{post.title}</h3>
-                    <ListComment postId={post.id}/>
+                    <ListComment comments={post.comments}/>
                     <CreateComment postId={post.id}/>
                 </div>
             </div>
