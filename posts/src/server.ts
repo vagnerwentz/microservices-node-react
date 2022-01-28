@@ -1,6 +1,7 @@
 import express from 'express';
 import { randomBytes } from 'crypto';
 import cors from 'cors';
+import axios from 'axios';
 
 const server = express();
 
@@ -18,17 +19,35 @@ server.get('/posts', (request, response) => {
     response.send(posts);
 });
 
-server.post('/posts', (request, response) => {
-	const id = randomBytes(4).toString('hex');
-	const { title } = request.body;
+server.post('/posts', async (request, response) => {
+		const id = randomBytes(4).toString('hex');
+		const { title } = request.body;
 
-	const postCreated = {
-		id, title
-	}
+		const postCreated = {
+			id, title
+		}
+	
+		posts.push(postCreated);
+	
+		const event = {
+			type: "PostCreated",
+			data: {
+				id,
+				title
+			}
+		}
+	
+		await axios.post("http://localhost:4005/events", event).catch((error) => {
+			console.log(error.message);
+		});
+	
+		response.status(201).send(postCreated);	
+});
 
-	posts.push(postCreated)
+server.post('/events', (request, response) => {
+	console.log("Received Event ", request.body.type);
 
-	response.status(201).send(postCreated);
+	response.send({});
 });
 
 export default server;
