@@ -5,44 +5,44 @@ import { CreateComment } from '../Comments/CreateComment';
 import { ListComment } from '../Comments/ListComment';
 
 interface Posts {
-	id: string;
-	title: string;
+    id: string;
+    title: string;
 }
 
 function ListPost() {
-	const [posts, setPosts] = useState<Posts[]>([]);
+    const [posts, setPosts] = useState<Posts[]>([]);
 
-	const fetchPosts = async () => {
-		const response = await axios.get('http://localhost:4000/posts');
+    const fetchPosts = async () => {
+        const response = await axios.get('http://localhost:4000/posts');
 
-		setPosts(response.data);
-	}
+        setPosts(response.data);
+    }
 
-	useEffect(() => {
-		fetchPosts();
-	}, []);
+    useEffect(() => {
+        fetchPosts();
+    }, []);
 
-	const renderedPosts = posts.map((post) => {
-		return (
-			<div 
-				className="card" 
-				style={{ width: "30%", marginBottom: "20px"}}
-				key={post.id}
-			>
-				<div className="card-body">
-					<h3>{post.title}</h3>
-					<ListComment postId={post.id}/>
-					<CreateComment postId={post.id}/>
-				</div>
-			</div>
-		)
-	});
+    const renderedPosts = posts.map((post) => {
+        return (
+            <div 
+                className="card" 
+                style={{ width: "30%", marginBottom: "20px"}}
+                key={post.id}
+            >
+                <div className="card-body">
+                    <h3>{post.title}</h3>
+                    <ListComment postId={post.id}/>
+                    <CreateComment postId={post.id}/>
+                </div>
+            </div>
+        )
+    });
 
-	return (
-		<div className="d-flex flex-row flex-wrap justify-content-between">
-			{renderedPosts}
-		</div>
-	);
+    return (
+        <div className="d-flex flex-row flex-wrap justify-content-between">
+            {renderedPosts}
+        </div>
+    );
 }
 
 export { ListPost };

@@ -1,4 +1,4 @@
-import { ChangeEvent, FormEvent, useState } from "react";
+import { FormEvent, useState } from "react";
 import axios from 'axios';
 
 interface CreateCommentProps {
@@ -30,7 +30,9 @@ function CreateComment({ postId }: CreateCommentProps) {
 						onChange={e => setContent(e.target.value)} 
 					/>
 				</div>
-				<button className="btn btn-primary">Submit</button>
+				<button className="btn btn-primary" style={{
+					marginTop: '10px'
+				}}>Submit</button>
 			</form>
 		</div>
 	);

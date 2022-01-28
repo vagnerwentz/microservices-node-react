@@ -26,7 +26,9 @@ function CreatePost() {
 						onChange={e => setTitle(e.target.value)} 
 					/>
 				</div>
-				<button className="btn btn-primary">Submit</button>
+				<button className="btn btn-primary" style={{
+					marginTop: '10px'
+				}}>Submit</button>
 			</form>
 		</div>
 	)    
