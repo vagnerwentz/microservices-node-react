@@ -1,55 +1,68 @@
-import express from 'express';
-import cors from 'cors';
+import express from "express";
+import cors from "cors";
 
 const server = express();
 
 server.use(express.json());
 server.use(cors());
 
-
 interface Comments {
-    id: string;
-    content: string;
+  id: string;
+  content: string;
+  status: "approved" | "pending" | "rejected";
 }
 
 interface Posts {
-    id: string;
-    title: string;
-    comments: Comments[];
+  id: string;
+  title: string;
+  comments: Comments[];
 }
 
 const posts: Posts[] = [];
 
-server.get('/posts', (request, response) => {
-	response.send(posts);
+server.get("/posts", (request, response) => {
+  response.send(posts);
 });
 
-server.post('/events', (request, response) => {
-	const { type, data } = request.body;
+server.post("/events", (request, response) => {
+  const { type, data } = request.body;
 
-    if (type === 'PostCreated') {
-        const { id, title } = data;
+  if (type === "PostCreated") {
+    const { id, title } = data;
 
-        const postCreated = {
-			id, 
-            title, 
-            comments: [],
-		}
+    const postCreated = {
+      id,
+      title,
+      comments: [],
+    };
 
-        posts.push(postCreated);
-    }
+    posts.push(postCreated);
+  }
 
-    if (type === 'CommentCreated') {
-        const { id, content, postId } = data;
+  if (type === "CommentCreated") {
+    const { id, content, postId, status } = data;
 
-        const post = posts.find(post => post.id === postId);
+    const post = posts.find((post) => post.id === postId);
 
-        post?.comments.push({ id, content });
-    }
+    post?.comments.push({ id, content, status });
+  }
 
-    console.log(posts);
+  if (type === 'CommentUpdated') {
+    const { id, content, postId, status } = data;
 
-    response.send({});
+    const post = posts.find((post) => post.id === postId);
+
+    const comment = post?.comments.find(comment => {
+      return comment.id === id;
+    });
+
+    comment!.status = status;
+    comment!.content = content;
+  }
+
+  console.log(posts);
+
+  response.send({});
 });
 
 export default server;
