@@ -20,13 +20,7 @@ interface Posts {
 
 const posts: Posts[] = [];
 
-server.get("/posts", (request, response) => {
-  response.send(posts);
-});
-
-server.post("/events", (request, response) => {
-  const { type, data } = request.body;
-
+export const handleEvent = (type: string, data: any) => {
   if (type === "PostCreated") {
     const { id, title } = data;
 
@@ -59,6 +53,16 @@ server.post("/events", (request, response) => {
     comment!.status = status;
     comment!.content = content;
   }
+}
+
+server.get("/posts", (request, response) => {
+  response.send(posts);
+});
+
+server.post("/events", (request, response) => {
+  const { type, data } = request.body;
+
+  handleEvent(type, data);
 
   console.log(posts);
 
