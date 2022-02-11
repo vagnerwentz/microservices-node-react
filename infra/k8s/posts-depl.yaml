@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: posts
-          image: services/posts:0.0.1
+          image: services/posts:latest # Or without :latest
 
 # selector - Take a look at all the different pods that have been created
 # find all the pods with a label of app posts.

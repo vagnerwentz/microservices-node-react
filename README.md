@@ -1,6 +1,6 @@
 <h1>Microservices with Node.JS and React.JS</h1>
 
-<h2>Pods</h2>
+<h2>Creating a Pods</h2>
 
 ```yaml
 apiVersion: v1
@@ -42,7 +42,7 @@ kubectl delete pod posts
 pod "posts" deleted
 ```
 
-<h2>Deployment</h2>
+<h2>Creating a Deployment</h2>
 
 ```yaml
 apiVersion: apps/v1
@@ -93,3 +93,20 @@ kubectl get pods
 NAME                          READY   STATUS    RESTARTS   AGE
 posts-depl-684447f94c-qk59w   1/1     Running   0          19m
 ```
+
+<h2>Updating Deployments</h2>
+
+<h3>#1 - Updating the Image Used By a Deployment</h3>
+
+1. Make a change to your project
+2. Rebuild the image, specifying a new image version `docker build -t services/posts:0.0.NEWVersion`
+3. In the deployment config file, update the version of the image
+4. Run the command `kubectl apply -f [depl file name]`
+
+<h3>#2 - Preferred method for Updating Deployments</h3>
+
+1. The deployment must be using the 'latest' tag in the pod spec section
+2. Make an update to your code
+3. Build the image `docker build -t services/posts`
+4. Push the image to docker hub `docker push services/posts`
+5. Run the command `kubectl rollout restart deployment [depl name]`
