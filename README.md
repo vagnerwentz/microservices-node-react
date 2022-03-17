@@ -110,3 +110,50 @@ posts-depl-684447f94c-qk59w   1/1     Running   0          19m
 3. Build the image `docker build -t services/posts`
 4. Push the image to docker hub `docker push services/posts`
 5. Run the command `kubectl rollout restart deployment [depl name]`
+
+
+<h2>Creating a Services</h2>
+
+```yaml
+aapiVersion: v1
+kind: Service
+metadata:
+  name: posts-srv
+spec:
+  type: NodePort
+  selector:
+    app: posts
+  ports:
+    - name: posts
+      protocol: TCP
+      port: 4000
+      targetPort: 4000
+```
+
+<h3>K8S Services Commands</h3>
+
+```bash
+kubectl get services - List all the running services
+# posts-srv    NodePort    10.104.153.4   <none>        4000:32056/TCP   45s
+
+kubectl describe serivces post-srv
+# Name:                     posts-srv
+# Namespace:                default
+# Labels:                   <none>
+# Annotations:              <none>
+# Selector:                 app=posts
+# Type:                     NodePort
+# IP Family Policy:         SingleStack
+# IP Families:              IPv4
+# IP:                       10.104.153.4
+# IPs:                      10.104.153.4
+# LoadBalancer Ingress:     localhost
+# Port:                     posts  4000/TCP
+# TargetPort:               4000/TCP
+# NodePort:                 posts  32056/TCP
+# Endpoints:                
+# Session Affinity:         None
+# External Traffic Policy:  Cluster
+# Events:                   <none>
+
+```
